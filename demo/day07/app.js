@@ -84,9 +84,48 @@ this.first_name=fn;
 this.fav_food=ff;
 this.iscoffe=cof;
 this.dog=dog;
+
+/*this.summary=function()
+{
+    console.log(`my name is ${this.first_name}and i love ${this.fav_food}`);
+}
+*/
+}
+//prototype used to link methods to constructor
+
+Person1.prototype.summary=function()
+{
+    console.log(`my name is ${this.first_name} and i love ${this.fav_food}`);
 }
 
-let obada=new Person1("obada","basta",true,true);
-let hashem=new Person1("hashem","molokhia",true,false)
+
+let obada=new Person1("obada","basta",true,true);// new instance
+let hashem=new Person1("hashem","molokhia",true,false);
 console.log(obada);
 console.log(hashem);
+
+console.log(obada.summary());
+//adding peoperties using prototype
+//Person1.prototype.lastname="obada allan"
+let allDrinks=[];
+
+function Drink(n,i,im,cold,hot,price)
+{
+    this.name=n;
+    this.ingredients=i;
+    this.image=im;
+    this.hot=hot;
+    this.cold=cold;
+    allDrinks.push(this);// this will save any object i create to the arryy
+}
+Drink.prototype.render=function()
+{
+    document.write( `<h1>the name of the drink is ${this.name}</h1>`);
+}
+let latte=new Drink("latte coffe",["milk","coffe","ice","sugar"],"../../assets/latte.jfif",true,false,2);
+let hot_chocho= new Drink("choco",["sdasd","asdasd","icre","sugar"],);
+console.table(latte);
+latte.render(); 
+console.log(allDrinks);
+
+ 
