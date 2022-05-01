@@ -107,7 +107,7 @@ console.log(hashem);
 console.log(obada.summary());
 //adding peoperties using prototype
 //Person1.prototype.lastname="obada allan"
-let allDrinks=[];
+let allDrinks=[]; 
 
 function Drink(n,i,im,cold,hot,price)
 {
@@ -118,6 +118,18 @@ function Drink(n,i,im,cold,hot,price)
     this.cold=cold;
     this.price=price;
     allDrinks.push(this);// this will save any object i create to the arryy
+}
+let tableEL=document.getElementById("tableID");
+Drink.prototype.rendertable=function()
+{
+let tr=document.createElement("tr");
+tableEL.appendChild(tr);
+let nameTD=document.createElement("td");
+nameTD.textContent=this.name;
+tr.appendChild(nameTD);
+let priceTD=document.createElement("td");
+priceTD.textContent=this.price;
+tr.appendChild(priceTD);
 }
 let sectionEL=document.getElementById("csec");
 let formEL=document.getElementById("formid");
@@ -151,10 +163,7 @@ let hot_chocho= new Drink("choco",["sdasd","asdasd","icre","sugar"],"https://sta
 let latte2=new Drink("latte coffe",["milk","coffe","ice","sugar"],"https://thumbs.dreamstime.com/b/coffe-illustration-vector-white-background-61913706.jpg",true,false,2);
 let hot_chocho1= new Drink("choco",["sdasd","asdasd","icre","sugar"],"https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee.JPG/1200px-A_small_cup_of_coffee.JPG");
 
-for (let i = 0; i < allDrinks.length; i++) 
-{
-    allDrinks[i].render();    
-}
+
 
 formEL.addEventListener("submit",handlesubmit);
 
@@ -174,4 +183,43 @@ function handlesubmit(event)
     //create a new drink using instance
     let newDrink=new Drink(drinkname,ingarr,image,cold,hot,price);
     newDrink.render();
+    savedata(allDrinks);
 }
+
+//local storage 
+
+function savedata(data)
+{
+    console.log("before saving",data);
+    //taking array and convert it to string
+    let datatosting=JSON.stringify(data)
+    localStorage.setItem("drinks",datatosting);
+}
+function getdata()
+{
+    //taking string and convert it to array
+    let retr=localStorage.getItem("drinks");
+    console.log(retr);
+    console.log(typeof(retr));
+    let arrdata=JSON.parse(retr);
+    if(arrdata!=null)
+    {
+    for (let i = 0; i < arrdata.length; i++) 
+        {
+            new Drink(arrdata[i].name,arrdata[i].ingredients,arrdata[i].image,arrdata[i].cold,arrdata[i].hot,arrdata[i].price);
+        }
+    }
+renderAll();
+}
+function renderAll()
+{
+    for (let i = 0; i < allDrinks.length; i++)
+        {
+            allDrinks[i].render();  
+            allDrinks[i].rendertable(); 
+        }
+}
+
+getdata();
+
+
